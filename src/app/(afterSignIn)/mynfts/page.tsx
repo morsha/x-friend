@@ -1,6 +1,7 @@
 'use client'
 import NftCard from "@/components/NftCard";
 import isAuth from "@/components/isAuth";
+import { Paper, Stack } from "@mui/material";
 import { useState } from "react";
 
 const initialServices = [
@@ -34,13 +35,13 @@ function MyNftsPage() {
   const [services, setServices] = useState(initialServices);
 
   return (
-    <div>
-      <div className="nfts-list">
-        {services.map((service: any) => (
-          <NftCard key={service.id} service={service} />
-        ))}
-      </div>
-    </div>
+    <Paper sx={{ maxHeight: 500, overflow: 'auto'}}>
+        <Stack flexWrap="wrap" direction="row">
+          {services.map((service: any) => (
+            <NftCard key={service.id} service={service} />
+          ))}
+        </Stack>
+    </Paper>
   );
 }
 

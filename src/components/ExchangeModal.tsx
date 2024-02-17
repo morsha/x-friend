@@ -1,11 +1,37 @@
 import { useState } from 'react';
+import {
+  Modal,
+  Box,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  Typography,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+};
 
 const exchangeApiCall = async ({ amount, currency }: {
   amount: string,
   currency: string,
 }) => {
   console.log(`Exchanging ${amount} of ${currency}`);
-  // 模擬 API 延遲
+  // 模拟 API 延迟
   return new Promise((resolve) => setTimeout(resolve, 1000));
 };
 
@@ -16,7 +42,6 @@ function ExchangeModal({ onClose }: any) {
 
   const handleExchange = async () => {
     try {
-      // 假設這是兌換 API 調用
       await exchangeApiCall({ amount, currency });
       setShowSuccessModal(true);
     } catch (error) {
@@ -26,34 +51,51 @@ function ExchangeModal({ onClose }: any) {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    onClose(); // 關閉兌換模態窗口
-    // 呼叫更新餘額的 API
+    onClose(); // 关闭兑换模态窗口
   };
 
   return (
-    <div>
-      <select value={currency} onChange={(e) => {
-        setCurrency(e.target.value);
-        setAmount('');
-      }}>
-        <option value="XToken">XToken to USDT</option>
-        <option value="USDT">USDT to XToken</option>
-      </select>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="Amount"
-      />
-      <button onClick={handleExchange}>Exchange</button>
-      <button onClick={onClose}>Close</button>
-      {showSuccessModal && (
-        <div>
-          <p>✅ Exchange Successful!</p>
-          <button onClick={handleCloseSuccessModal}>Close</button>
-        </div>
-      )}
-    </div>
+    <Modal
+      open
+      onClose={onClose}
+      aria-labelledby="exchange-modal-title"
+    >
+      <Box sx={style}>
+        <Typography id="exchange-modal-title" variant="h6" component="h2">
+          Exchange
+        </Typography>
+        <FormControl fullWidth>
+          <InputLabel>Currency</InputLabel>
+          <Select
+            value={currency}
+            label="Currency"
+            onChange={(e) => {
+              setCurrency(e.target.value);
+              setAmount('');
+            }}
+          >
+            <MenuItem value="XToken">XToken to USDT</MenuItem>
+            <MenuItem value="USDT">USDT to XToken</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="Amount"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Amount"
+          fullWidth
+        />
+        <Button variant="contained" onClick={handleExchange} sx={{ mt: 2 }}>Exchange</Button>
+        <Button variant="outlined" onClick={onClose} sx={{ mt: 1 }}>Close</Button>
+        {showSuccessModal && (
+          <Box sx={{ mt: 2 }}>
+            <Typography>✅ Exchange Successful!</Typography>
+            <Button variant="outlined" onClick={handleCloseSuccessModal} sx={{ mt: 1 }}>Close</Button>
+          </Box>
+        )}
+      </Box>
+    </Modal>
   );
 }
 

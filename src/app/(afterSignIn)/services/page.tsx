@@ -2,6 +2,7 @@
 import CreateServiceModal from "@/components/CreateServiceModal";
 import ServiceCard from "@/components/ServiceCard";
 import isAuth from "@/components/isAuth";
+import { Stack, Paper } from "@mui/material";
 import { useState } from "react";
 
 const initialServices = [
@@ -51,11 +52,13 @@ function ServicesPage() {
           onSubmit={handleCreateService}
         />
       )}
-      <div className="services-list">
-        {services.map((service: any) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </div>
+      <Paper sx={{ maxHeight: 500, overflow: 'auto'}}>
+        <Stack flexWrap="wrap" direction="row">
+          {services.map((service: any) => (
+            <ServiceCard key={service.id} service={service} />
+          ))}
+        </Stack>
+      </Paper>
     </div>
   );
 }

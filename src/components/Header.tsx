@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ExchangeModal from "./ExchangeModal";
 import WithdrawModal from "./WithdrawModal";
+import Button from '@mui/material/Button';
+import { Stack, Typography } from "@mui/material";
 
 export default function Header() {
   const [userAddress, setUserAddress] = useState('');
@@ -19,11 +21,17 @@ export default function Header() {
 
   return (
     <header>
-      <p>Address: {userAddress}</p>
-      <p>USDT Balance: {userUSDTBalance}</p>
-      <p>XToken Balance: {userXTokenBalance}</p>
-      <button onClick={() => setShowExchangeModal(true)}>Exchange</button>
-      <button onClick={() => setShowWithdrawModal(true)}>Withdraw</button>
+      <Stack width="100%" direction="row">
+        <Stack flex={1}>
+          <Typography component="p">Address: {userAddress}</Typography>
+          <Typography component="p">USDT Balance: {userUSDTBalance}</Typography>
+          <Typography component="p">XToken Balance: {userXTokenBalance}</Typography>
+        </Stack>
+        <Stack alignSelf="flex-end">
+          <Button onClick={() => setShowExchangeModal(true)}>Exchange</Button>
+          <Button onClick={() => setShowWithdrawModal(true)}>Withdraw</Button>
+        </Stack>
+      </Stack>
       {showExchangeModal && <ExchangeModal onClose={() => setShowExchangeModal(false)} />}
       {showWithdrawModal && <WithdrawModal onClose={() => setShowWithdrawModal(false)} />}
     </header>
