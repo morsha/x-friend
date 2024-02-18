@@ -26,17 +26,17 @@ export default function Header() {
   return (
     <header>
       <Stack width="100%" direction="row" padding={2}>
-        <Stack flex={1}>
-          <Typography component="p">
+        <Stack width="50%">
+          <Typography component="span">
             {userPayload?.name} / {userPayload?.email}
           </Typography>
-          <Typography component="p">Address: {userPayload?.address}</Typography>
-          <Typography component="p">USDT Balance: {userUSDTBalance}</Typography>
-          <Typography component="p">
+          <Typography component="span" style={{ wordWrap: "break-word" }}>Address: {userPayload?.address}</Typography>
+          <Typography component="span">USDT Balance: {userUSDTBalance}</Typography>
+          <Typography component="span">
             XToken Balance: {userXTokenBalance}
           </Typography>
         </Stack>
-        <Stack alignSelf="flex-end">
+        <Stack alignSelf="flex-end" flexShrink={0} paddingLeft={2}>
           <Button onClick={() => setShowExchangeModal(true)}>Exchange</Button>
           <Button onClick={() => setShowWithdrawModal(true)}>Withdraw</Button>
         </Stack>
