@@ -1,12 +1,12 @@
-'use client'
-
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
   const router = useRouter();
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    router.push('/signin')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      router.push('/signin')
+    }
   };
 
   return (

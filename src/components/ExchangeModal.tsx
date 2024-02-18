@@ -87,7 +87,6 @@ function ExchangeModal({ onClose }: any) {
           fullWidth
         />
         <Button variant="contained" onClick={handleExchange} sx={{ mt: 2 }}>Exchange</Button>
-        <Button variant="outlined" onClick={onClose} sx={{ mt: 1 }}>Close</Button>
         {showSuccessModal && (
           <Box sx={{ mt: 2 }}>
             <Typography>✅ Exchange Successful!</Typography>
