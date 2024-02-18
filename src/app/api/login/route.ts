@@ -2,28 +2,23 @@ import { getJwtSecretKey } from "@/app/libs/auth";
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { getUserByEmail } from "../../../../utils/prismaUtils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  // get user by email
-  // const user = userService.getUserByEmail(body.email);
-  const user = {
-    id: "test-user-id",
-    name: "test user",
-    email: body.email,
-    passhash: await bcrypt.hash("password", 10),
-  };
+  const user = await getUserByEmail(body.email);
 
-  const isPasswordCorrect = await bcrypt.compare(body.password, user.passhash);
+  const isPasswordCorrect = await bcrypt.compare(body.password, user!.password);
 
   if (user && isPasswordCorrect) {
     const userPayload: UserPayload = {
       sub: user.id,
-      name: user.name,
+      name: user.name!,
       email: user.email,
-      address: "USER_ADDRESS",
+      address: user.evmAddress!,
     };
+    
     const token = await new SignJWT(userPayload)
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()

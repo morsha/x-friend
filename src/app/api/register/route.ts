@@ -1,27 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { getJwtSecretKey } from "@/app/libs/auth";
+import { bodyToUser } from "../../../../utils/userMapper";
+import { createUser } from "../../../../utils/prismaUtils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
   // map to User Model
-  // userService.save(user);
-
-  const user = {
-    id: new Date().getTime().toString(),
-    name: body.name,
-    email: body.email,
-    passhash: await bcrypt.hash(body.password, 10),
-  };
-
-  // TODO: generate wallet address
+  let user = await bodyToUser(body);
+  user = await createUser(user);
+  // const { evmAddress } = createWallet(user);
   const userPayload: UserPayload = {
     sub: user.id,
     name: user.name,
     email: user.email,
-    address: "USER_ADDRESS",
+    address: user.evmAddress,
   };
 
   const token = await new SignJWT(userPayload)
