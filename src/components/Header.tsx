@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { decodeJwt } from "jose";
 import { useEffect, useState } from "react";
 import ExchangeModal from "./ExchangeModal";

@@ -1,7 +1,7 @@
 import { decodeJwt } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 import { getTokenFromAuthHeader } from "../../../../../utils/helper";
-import { getMyNFTs } from "../../../../../utils/prismaUtils";
+import { getMyPOAPs } from "../../../../../utils/prismaUtils";
 
 export async function GET(request: NextRequest) {
   const token = getTokenFromAuthHeader(request.headers.get("authorization"));
@@ -13,13 +13,13 @@ export async function GET(request: NextRequest) {
   }
   const userPayload: UserPayload = decodeJwt(token);
 
-  const nfts = await getMyNFTs(userPayload.sub);
+  const poaps = await getMyPOAPs(userPayload.sub);
 
   return NextResponse.json(
     {
       success: true,
       data: {
-        nfts,
+        poaps,
       },
     },
     { status: 200 }
