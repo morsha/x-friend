@@ -2,46 +2,29 @@
 import CreateServiceModal from "@/components/CreateServiceModal";
 import ServiceCard from "@/components/ServiceCard";
 import isAuth from "@/components/isAuth";
+import useAuthSwr from "@/hooks/useAuthSwr";
+import usePost from "@/hooks/usePostRequest";
 import { Stack, Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-const initialServices = [
-  {
-    id: 1,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Web Development",
-  },
-  {
-    id: 2,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "UI/UX Design",
-  },
-  {
-    id: 3,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Cloud Services",
-  },
-  {
-    id: 4,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "SEO Optimization",
-  },
-  {
-    id: 5,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Digital Marketing",
-  }
-];
 function ServicesPage() {
-  const [services, setServices] = useState(initialServices);
+  const { data, mutate } = useAuthSwr('/api/services');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCreateService = (serviceData: any) => {
+  const { post } = usePost('/api/service')
+
+  const handleCreateService = useCallback(async (serviceData: any) => {
     // 假設提交到 API 的邏輯
     console.log('Creating service:', serviceData);
+    await post({
+      title: serviceData.title,
+      description: serviceData.description,
+    })
     setIsModalOpen(false);
+    mutate();
     // 更新 services 狀態以包含新服務
-  };
+  }, [mutate, post]);
 
   return (
     <div>
@@ -53,7 +36,7 @@ function ServicesPage() {
         />
       )}
       <Stack flexWrap="wrap" direction="row">
-        {services.map((service: any) => (
+        {(data?.data.services || []).map((service: any) => (
           <ServiceCard key={service.id} service={service} />
         ))}
       </Stack>

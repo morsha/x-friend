@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!body.title || !body.description || !body.price || !body.status) {
+  if (!body.title || !body.description) {
     return NextResponse.json(
       { success: false, data: { message: "Invalid Request" } },
       { status: 400 }
@@ -26,9 +26,9 @@ export async function POST(request: NextRequest) {
   const service = await createService({
     title: body.title,
     description: body.description,
-    price: body.price,
+    price: 100,
     providerId: userPayload.sub,
-    status: body.status,
+    status: 'AVAILABLE',
   });
 
   if (service) {
