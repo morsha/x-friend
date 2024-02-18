@@ -19,6 +19,8 @@ model User {
   evmAddress   String? // EVM compatible address for transactions
   services     Service[]
   transactions Transaction[]
+  ownedNFTs    NFT[]         @relation("UserOwnedNFTs")
+  mintedNFTs   NFT[]         @relation("UserMintedNFTs")
 }
 
 model Service {
@@ -29,6 +31,7 @@ model Service {
   providerId  String
   provider    User          @relation(fields: [providerId], references: [id])
   status      ServiceStatus
+  nfts        NFT[] // NFTs associated with this service
   Transaction Transaction[]
 }
 
@@ -41,6 +44,19 @@ model Transaction {
   amount    Float
   status    TransactionStatus
   nftToken  String? // Token ID of the NFT representing the purchase
+}
+
+model NFT {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  tokenId     String // Unique identifier for the NFT on the blockchain
+  metadataUrl String // URL to the NFT metadata
+  owner       User     @relation("UserOwnedNFTs", fields: [ownerId], references: [id])
+  ownerId     String // ID of the user who owns the NFT
+  minter      User     @relation("UserMintedNFTs", fields: [minterId], references: [id])
+  minterId    String // ID of the user who minted the NFT
+  service     Service? @relation(fields: [serviceId], references: [id])
+  serviceId   String? // ID of the service associated with the NFT
+  createdAt   DateTime @default(now())
 }
 
 enum UserType {
