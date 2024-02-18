@@ -27,6 +27,11 @@ export async function POST(request: NextRequest) {
     if (!process.env.MNEMONIC) {
       throw new Error("Mnemonic is not defined");
     }
+    const userPayload: UserPayload = decodeJwt(token);
+
+    if (!process.env.MNEMONIC) {
+      throw new Error("Mnemonic is not defined");
+    }
     if (!process.env.XPOAP_ADDRESS) {
       throw new Error("XPOAP contract address is not defined");
     }
@@ -55,26 +60,18 @@ export async function POST(request: NextRequest) {
     });
     const receipt = await mintTx.wait(); // Wait for the transaction to be mined
 
-    // TODO: save mint record into database
-    updateNFT(body.nftId, { status: "COMPLETED" });
-
-    const nft = await getNFTById(body.nftId);
-    if (!nft) {
-      return NextResponse.json(
-        { success: false, message: "NFT not found" },
-        { status: 404 }
-      );
-    }
+    await updateNFT(body.nftId, { status: "COMPLETED" });
+    const tokenId = Number(BigInt(receipt.logs[0].topics[3])).toString();
     const poap = await createPOAP({
-      tokenId: nft.tokenId,
-      metadataUrl: nft.metadataUrl,
-      ownerId: nft.ownerId,
-      minterId: nft.minterId,
-      serviceId: nft.serviceId,
+      tokenId,
+      nftId: body.nftId,
     });
 
     return NextResponse.json(
-      { success: true, data: { userPayload, tx: receipt.hash, poap } },
+      {
+        success: true,
+        data: { userPayload, tx: receipt.hash, tokenId, poap },
+      },
       { status: 200 }
     );
   } catch (error) {

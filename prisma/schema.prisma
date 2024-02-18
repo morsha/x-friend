@@ -20,9 +20,7 @@ model User {
   services     Service[]
   transactions Transaction[]
   ownedNFTs    NFT[]         @relation("UserOwnedNFTs")
-  ownedPOAPs   POAP[]        @relation("UserOwnedPOAPs")
   mintedNFTs   NFT[]         @relation("UserMintedNFTs")
-  mintedPOAPs  POAP[]        @relation("UserMintedPOAPs")
 }
 
 model Service {
@@ -64,16 +62,12 @@ model NFT {
 }
 
 model POAP {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  tokenId     String // Unique identifier for the POAP on the blockchain
-  metadataUrl String // URL to the POAP metadata
-  owner       User     @relation("UserOwnedPOAPs", fields: [ownerId], references: [id])
-  ownerId     String // ID of the user who owns the POAP
-  minter      User     @relation("UserMintedPOAPs", fields: [minterId], references: [id])
-  minterId    String // ID of the user who minted the POAP
-  service     Service? @relation(fields: [serviceId], references: [id])
-  serviceId   String? // ID of the service associated with the POAP
-  createdAt   DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  tokenId   String // Unique identifier for the POAP on the blockchain
+  createdAt DateTime @default(now())
+  nftId     String
+  Service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?  @db.ObjectId
 }
 
 enum UserType {

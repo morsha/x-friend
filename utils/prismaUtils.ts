@@ -169,13 +169,7 @@ export async function createNFT(data: {
   });
 }
 // create POAP
-export async function createPOAP(data: {
-  tokenId: string;
-  metadataUrl: string;
-  ownerId: string;
-  minterId: string;
-  serviceId: string | null;
-}) {
+export async function createPOAP(data: { tokenId: string; nftId: string }) {
   return prisma.pOAP.create({
     data,
   });
