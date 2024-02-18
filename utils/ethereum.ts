@@ -11,7 +11,6 @@ export function getWalletFromMnemonic(mnemonic: string, derivationPath: string):
     let w = new ethers.Wallet(childNode.privateKey);
     w = new ethers.Wallet(childNode.privateKey);
     return w;
-
 }
 
 // sign transaction with mnemonic

@@ -2,6 +2,7 @@ import { getJwtSecretKey } from "@/app/libs/auth";
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { getWalletFromMnemonic } from "../../../../utils/ethereum";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -9,7 +10,7 @@ export async function POST(request: NextRequest) {
   // get user by email
   // const user = userService.getUserByEmail(body.email);
   const user = {
-    id: "test-user-id",
+    id: "1",
     name: "test user",
     email: body.email,
     passhash: await bcrypt.hash("password", 10),
@@ -17,12 +18,15 @@ export async function POST(request: NextRequest) {
 
   const isPasswordCorrect = await bcrypt.compare(body.password, user.passhash);
 
-  if (user && isPasswordCorrect) {
+  if (user && isPasswordCorrect && process.env.MNEMONIC) {
+    const path = `m/44'/60'/0'/0/${user.id}`;
+    const address = await getWalletFromMnemonic(process.env.MNEMONIC, path).getAddress();
+
     const userPayload: UserPayload = {
       sub: user.id,
       name: user.name,
       email: user.email,
-      address: "USER_ADDRESS",
+      address,
     };
     const token = await new SignJWT(userPayload)
       .setProtectedHeader({ alg: "HS256" })

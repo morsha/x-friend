@@ -41,7 +41,9 @@ export default function RootLayout({
   return (
     <Stack sx={[styles.root, matches ? styles.desktop : styles.mobile]}>
       <Header />
-        {children}
+        <Stack flex={1} overflow="auto">
+          {children}
+        </Stack>
       <Footer />
     </Stack>
   );
