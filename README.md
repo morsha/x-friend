@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+setting up the environment
+```shell
+cp .env.example .env
+```
+
+Run MongoDB with Docker:
+```shell
+docker-compose up -d
+```
+
+```shell
+
 First, run the development server:
 
 ```bash
@@ -12,6 +24,12 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+
+### how to use prisma
+```shell
+prisma format
+npx prisma generate
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
