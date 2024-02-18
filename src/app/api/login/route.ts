@@ -1,6 +1,7 @@
-import { getJwtSecretKey } from "@/app/lib/auth";
+import { getJwtSecretKey } from "@/app/libs/auth";
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
@@ -8,7 +9,9 @@ export async function POST(request: NextRequest) {
     // get user by email
     const user = userService.getUserByEmail(body.email);
 
-    if (user) {
+    const isPasswordCorrect = await bcrypt.compare(body.password, user.password);
+
+    if (user && isPasswordCorrect) {
         const token = await new SignJWT({
             email: body.email,
         })
