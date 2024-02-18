@@ -1,45 +1,72 @@
-'use client'
+"use client";
 import NftCard from "@/components/NftCard";
 import isAuth from "@/components/isAuth";
-import { Stack } from "@mui/material";
-import { useState } from "react";
+import { Button, Paper, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const initialServices = [
-  {
-    id: 1,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Web Development",
-  },
-  {
-    id: 2,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "UI/UX Design",
-  },
-  {
-    id: 3,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Cloud Services",
-  },
-  {
-    id: 4,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "SEO Optimization",
-  },
-  {
-    id: 5,
-    imgUrl: "https://via.placeholder.com/150",
-    title: "Digital Marketing",
-  }
-];
+const initialNFTs: {
+  id: number;
+  imgUrl: string;
+  title: string;
+}[] = [];
+const initialPOAPs: {
+  id: number;
+  imgUrl: string;
+  title: string;
+}[] = [];
 function MyNftsPage() {
-  const [services, setServices] = useState(initialServices);
+  const [nfts, setNFTs] = useState(initialNFTs);
+  const [poaps, setPOAPs] = useState(initialPOAPs);
+
+  useEffect(() => {
+    fetch("/api/nft/mine", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((d) => {
+        setNFTs(d.data.nfts);
+      });
+
+    // fetch my poaps
+    fetch("/api/poap/mine", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((d) => {
+        setPOAPs(d.data.poaps);
+      });
+  }, []);
 
   return (
-    <Stack flexWrap="wrap" direction="row">
-      {services.map((service: any) => (
-        <NftCard key={service.id} service={service} />
-      ))}
-    </Stack>
+    <Paper sx={{ maxHeight: 500, overflow: "auto" }}>
+      <Button>Add XNFT</Button>
+      <Button>Add XPOAP</Button>
+      <h2>On going services...</h2>
+      <Stack flexWrap="wrap" direction="row">
+        {nfts.length === 0
+          ? "No NFT now."
+          : nfts.map((nft: any) => (
+              <NftCard key={nft.id} nft={nft} category="nft" />
+            ))}
+      </Stack>
+      <hr></hr>
+      <h2>Have provided services...</h2>
+      <Stack flexWrap="wrap" direction="row">
+        {poaps.length === 0
+          ? "No POAP now."
+          : poaps.map((poap: any) => (
+              <NftCard key={poap.id} nft={poap} category="poap" />
+            ))}
+      </Stack>
+    </Paper>
   );
 }
 
