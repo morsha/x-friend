@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, TransactionStatus } from "@prisma/client";
 require("dotenv").config();
 
 const prisma = new PrismaClient();
@@ -168,6 +168,18 @@ export async function createNFT(data: {
     data,
   });
 }
+// create POAP
+export async function createPOAP(data: {
+  tokenId: string;
+  metadataUrl: string;
+  ownerId: string;
+  minterId: string;
+  serviceId: string | null;
+}) {
+  return prisma.pOAP.create({
+    data,
+  });
+}
 
 // get NFT by Id
 export async function getNFTById(id: string) {
@@ -207,6 +219,7 @@ export async function updateNFT(
     metadataUrl: string;
     ownerId: string;
     serviceId?: string;
+    status: TransactionStatus;
   }>
 ) {
   return prisma.nFT.update({
