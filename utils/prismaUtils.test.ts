@@ -11,40 +11,40 @@ import {
 
 const prisma = new PrismaClient();
 
-// Mock Prisma Client
-// jest.mock('@prisma/client', () => {
-//     return {
-//         PrismaClient: jest.fn().mockImplementation(() => ({
-//             user: {
-//                 create: jest.fn().mockResolvedValue({ id: '1', email: 'test@test.com' }),
-//                 findUnique: jest.fn().mockResolvedValue({ id: '1', email: 'test@test.com' }),
-//                 update: jest.fn().mockResolvedValue({ id: '1', name: 'Updated Name' }),
-//                 delete: jest.fn().mockResolvedValue({ id: '1' }),
-//             },
-//             service: {
-//                 create: jest.fn().mockResolvedValue({ id: '1', title: 'Test Service' }),
-//                 findUnique: jest.fn().mockResolvedValue({ id: '1', title: 'Test Service' }),
-//                 findMany: jest.fn().mockResolvedValue([{ id: '1', title: 'Test Service' }]),
-//                 update: jest.fn().mockResolvedValue({ id: '1', title: 'Updated Service' }),
-//                 delete: jest.fn().mockResolvedValue({ id: '1' }),
-//             },
-//             transaction: {
-//                 create: jest.fn().mockResolvedValue({ id: '1', amount: 200, status: 'PENDING'}),
-//                 findUnique: jest.fn().mockResolvedValue({ id: '1', amount: 200, status: 'PENDING' }),
-//                 findMany: jest.fn().mockResolvedValue([{ id: '1', amount: 200, status: 'PENDING' }]),
-//                 update: jest.fn().mockResolvedValue({ id: '1', amount: 200 }),
-//                 delete: jest.fn().mockResolvedValue({ id: '1' }),
-//             },
-//             nFT: {
-//                 create: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT123', metadataUrl: 'https://example.com/nft/123' }),
-//                 findUnique: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT123' }),
-//                 findMany: jest.fn().mockResolvedValue([{ id: '1', tokenId: 'NFT123' }]),
-//                 update: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT456' }),
-//                 delete: jest.fn().mockResolvedValue({ id: '1' }),
-//             },
-//         })),
-//     };
-// });
+Mock Prisma Client
+jest.mock('@prisma/client', () => {
+    return {
+        PrismaClient: jest.fn().mockImplementation(() => ({
+            user: {
+                create: jest.fn().mockResolvedValue({ id: '1', email: 'test@test.com' }),
+                findUnique: jest.fn().mockResolvedValue({ id: '1', email: 'test@test.com' }),
+                update: jest.fn().mockResolvedValue({ id: '1', name: 'Updated Name' }),
+                delete: jest.fn().mockResolvedValue({ id: '1' }),
+            },
+            service: {
+                create: jest.fn().mockResolvedValue({ id: '1', title: 'Test Service' }),
+                findUnique: jest.fn().mockResolvedValue({ id: '1', title: 'Test Service' }),
+                findMany: jest.fn().mockResolvedValue([{ id: '1', title: 'Test Service' }]),
+                update: jest.fn().mockResolvedValue({ id: '1', title: 'Updated Service' }),
+                delete: jest.fn().mockResolvedValue({ id: '1' }),
+            },
+            transaction: {
+                create: jest.fn().mockResolvedValue({ id: '1', amount: 200, status: 'PENDING'}),
+                findUnique: jest.fn().mockResolvedValue({ id: '1', amount: 200, status: 'PENDING' }),
+                findMany: jest.fn().mockResolvedValue([{ id: '1', amount: 200, status: 'PENDING' }]),
+                update: jest.fn().mockResolvedValue({ id: '1', amount: 200 }),
+                delete: jest.fn().mockResolvedValue({ id: '1' }),
+            },
+            nFT: {
+                create: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT123', metadataUrl: 'https://example.com/nft/123' }),
+                findUnique: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT123' }),
+                findMany: jest.fn().mockResolvedValue([{ id: '1', tokenId: 'NFT123' }]),
+                update: jest.fn().mockResolvedValue({ id: '1', tokenId: 'NFT456' }),
+                delete: jest.fn().mockResolvedValue({ id: '1' }),
+            },
+        })),
+    };
+});
 
 
 describe('prismaUtils', () => {
@@ -67,10 +67,10 @@ describe('prismaUtils', () => {
         expect(user).toHaveProperty('email', 'test@test.com');
     });
 
-    it('creates a service', async () => {
+    it('creates a services', async () => {
         const service = await createService({
             title: 'Test Service',
-            description: 'A test service',
+            description: 'A test services',
             price: 100,
             providerId: '1',
             status: 'AVAILABLE',
@@ -79,7 +79,7 @@ describe('prismaUtils', () => {
         expect(service.title).toBe('Test Service');
     });
 
-    it('gets a service by ID', async () => {
+    it('gets a services by ID', async () => {
         const service = await getServiceById('1');
         expect(service).toHaveProperty('title', 'Test Service');
     });
@@ -95,13 +95,13 @@ describe('prismaUtils', () => {
     // });
 
 
-    it('updates a service', async () => {
+    it('updates a services', async () => {
         const updatedService = await updateService('1', {title: 'Updated Service'});
         expect(updatedService).toHaveProperty('title', 'Updated Service');
     });
 
 
-    // it('deletes a service', async () => {
+    // it('deletes a services', async () => {
     //     const deletedService = await deleteService('1');
     //     expect(deletedService).toHaveProperty('id', '1');
     // });

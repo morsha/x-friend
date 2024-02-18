@@ -53,7 +53,7 @@ export async function deleteUser(id: string) {
 
 // Service CRUD
 
-// create service
+// create services
 export async function createService(data: {
   title: string;
   description: string;
@@ -66,7 +66,7 @@ export async function createService(data: {
   });
 }
 
-// get service by Id
+// get services by Id
 export async function getServiceById(id: string) {
   return prisma.service.findUnique({
     where: { id },
@@ -94,7 +94,7 @@ export async function updateService(
   });
 }
 
-// delete service
+// delete services
 export async function deleteService(id: string) {
   return prisma.service.delete({
     where: { id },

@@ -16,11 +16,7 @@ function ServicesPage() {
 
   const handleCreateService = useCallback(async (serviceData: any) => {
     // 假設提交到 API 的邏輯
-    console.log('Creating service:', serviceData);
-    await post({
-      title: serviceData.title,
-      description: serviceData.description,
-    })
+    console.log('Creating services:', serviceData);
     setIsModalOpen(false);
     mutate();
     // 更新 services 狀態以包含新服務
