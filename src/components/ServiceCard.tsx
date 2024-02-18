@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 function ServiceCard({ service }: {
   service: {
     id: string,
-    imgUrl: string,
+    // imgUrl: string,
     title: string,
   },
 }) {
@@ -19,7 +19,8 @@ function ServiceCard({ service }: {
       <CardMedia
         component="img"
         height="160"
-        image={service.imgUrl}
+        // image={service.imgUrl}
+        image="https://via.placeholder.com/150"
         alt={service.title}
       />
       <CardContent>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { getJwtSecretKey } from "@/app/libs/auth";
+import { getWalletFromMnemonic } from "../../../../utils/ethereum";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -10,18 +11,22 @@ export async function POST(request: NextRequest) {
   // userService.save(user);
 
   const user = {
-    id: new Date().getTime().toString(),
+    id: '1',
     name: body.name,
     email: body.email,
     passhash: await bcrypt.hash(body.password, 10),
   };
 
-  // TODO: generate wallet address
+  if (!process.env.MNEMONIC) throw new Error("Mnemonic is not defined");
+
+  const path = `m/44'/60'/0'/0/${user.id}`;
+  const address = await getWalletFromMnemonic(process.env.MNEMONIC, path).getAddress();
+
   const userPayload: UserPayload = {
     sub: user.id,
     name: user.name,
     email: user.email,
-    address: "USER_ADDRESS",
+    address,
   };
 
   const token = await new SignJWT(userPayload)
