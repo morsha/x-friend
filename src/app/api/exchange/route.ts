@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 
   const path = `m/44'/60'/0'/0/${payload.sub}`;
   const wallet = getWalletFromMnemonic(process.env.MNEMONIC, path);
-  const provider = new ethers.providers.JsonRpcProvider(process.env.ETHERS_PROVIDER_URL);
+  const provider = new ethers.JsonRpcProvider(process.env.ETHERS_PROVIDER_URL);
   const connectedWallet = wallet.connect(provider);
   let contract = new ethers.Contract(process.env.TOKEN_X_ADDRESS, contractABI, connectedWallet);
   const decimals = Number(await contract.decimals());
