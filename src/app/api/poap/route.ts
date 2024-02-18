@@ -53,9 +53,10 @@ export async function POST(request: NextRequest) {
         const receipt = await mintTx.wait(); // Wait for the transaction to be mined
 
         // TODO: save mint record into database
-
+        const token_id = Number(BigInt(receipt.logs[0].topics[3]));
+        console.log(token_id);
         return NextResponse.json(
-            {success: true, data: {userPayload, tx: receipt.hash}},
+            {success: true, data: {userPayload, tx: receipt.hash, token_id: token_id}},
             {status: 200}
         );
     } catch (error) {

@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
 
   // TODO: buy and mint NFT
 
+
   const nft = await createNFT({
     tokenId: "1",
     metadataUrl: "metadataUrl",
