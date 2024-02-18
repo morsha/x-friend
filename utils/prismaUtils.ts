@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 require('dotenv').config();
 
 const prisma = new PrismaClient();
@@ -21,7 +21,7 @@ export async function createUser(data: {
 // get user by Id
 export async function getUserById(id: string) {
     return prisma.user.findUnique({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -34,7 +34,7 @@ export async function updateUser(id: string, data: Partial<{
     evmAddress?: string;
 }>) {
     return prisma.user.update({
-        where: {id},
+        where: { id },
         data,
     });
 }
@@ -42,7 +42,7 @@ export async function updateUser(id: string, data: Partial<{
 // delete user
 export async function deleteUser(id: string) {
     return prisma.user.delete({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -66,7 +66,7 @@ export async function createService(data: {
 // get service by Id
 export async function getServiceById(id: string) {
     return prisma.service.findUnique({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -83,7 +83,7 @@ export async function updateService(id: string, data: Partial<{
     status: 'AVAILABLE' | 'PENDING' | 'COMPLETED';
 }>) {
     return prisma.service.update({
-        where: {id},
+        where: { id },
         data,
     });
 }
@@ -91,7 +91,7 @@ export async function updateService(id: string, data: Partial<{
 // delete service
 export async function deleteService(id: string) {
     return prisma.service.delete({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -115,7 +115,7 @@ export async function createTransaction(data: {
 // get transaction by Id
 export async function getTransactionById(id: string) {
     return prisma.transaction.findUnique({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -131,7 +131,7 @@ export async function updateTransaction(id: string, data: Partial<{
     nftToken?: string;
 }>) {
     return prisma.transaction.update({
-        where: {id},
+        where: { id },
         data,
     });
 }
@@ -139,7 +139,7 @@ export async function updateTransaction(id: string, data: Partial<{
 // delete transaction
 export async function deleteTransaction(id: string) {
     return prisma.transaction.delete({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -163,7 +163,7 @@ export async function createNFT(data: {
 // get NFT by Id
 export async function getNFTById(id: string) {
     return prisma.nFT.findUnique({
-        where: {id},
+        where: { id },
     });
 }
 
@@ -172,6 +172,9 @@ export async function getAllNFTs() {
     return prisma.nFT.findMany();
 }
 
+// get my NFTs 
+
+
 // update NFT
 export async function updateNFT(id: string, data: Partial<{
     metadataUrl: string;
@@ -179,7 +182,7 @@ export async function updateNFT(id: string, data: Partial<{
     serviceId?: string;
 }>) {
     return prisma.nFT.update({
-        where: {id},
+        where: { id },
         data,
     });
 }
@@ -187,6 +190,6 @@ export async function updateNFT(id: string, data: Partial<{
 // delete NFT
 export async function deleteNFT(id: string) {
     return prisma.nFT.delete({
-        where: {id},
+        where: { id },
     });
 }

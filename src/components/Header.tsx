@@ -13,9 +13,8 @@ export default function Header() {
   const [showExchangeModal, setShowExchangeModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
-  const userPayload: UserPayload = decodeJwt(
-    localStorage.getItem("accessToken") || ""
-  );
+  const token = localStorage.getItem("accessToken")
+  const userPayload = token && decodeJwt(token) as (UserPayload | null);
 
   useEffect(() => {
     // call api get user data
