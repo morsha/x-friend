@@ -1,19 +1,36 @@
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/navigation';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useRouter } from "next/navigation";
 
-function ServiceCard({ service }: {
+function ServiceCard({
+  service,
+}: {
   service: {
-    id: string,
+    id: string;
     // imgUrl: string,
-    title: string,
-  },
+    title: string;
+  };
 }) {
   const router = useRouter();
+
+  const handlePurchase = () => {
+    fetch(`/api/purchase`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify({
+        serviceId: service.id,
+      }),
+    }).then(() => {
+      router.push("/mynfts");
+    });
+  };
   return (
     <Card sx={{ maxWidth: 160, m: 1 }}>
       <CardMedia
@@ -29,7 +46,9 @@ function ServiceCard({ service }: {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => router.push(`/purchase/${service.id}`)}>Purchase</Button>
+        <Button size="small" onClick={handlePurchase}>
+          Purchase
+        </Button>
       </CardActions>
     </Card>
   );

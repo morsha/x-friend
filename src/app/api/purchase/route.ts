@@ -1,9 +1,9 @@
 import { decodeJwt } from "jose";
 import { NextRequest, NextResponse } from "next/server";
-import { getTokenFromAuthHeader } from "../../../../../utils/helper";
-import { getMyNFTs } from "../../../../../utils/prismaUtils";
+import { getTokenFromAuthHeader } from "../../../../utils/helper";
+import { createNFT } from "../../../../utils/prismaUtils";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const token = getTokenFromAuthHeader(request.headers.get("authorization"));
   if (!token) {
     return NextResponse.json(
@@ -12,13 +12,25 @@ export async function GET(request: NextRequest) {
     );
   }
   const userPayload: UserPayload = decodeJwt(token);
-  const nfts = await getMyNFTs(userPayload.sub);
+
+  const data = await request.json();
+  const serviceId = data.serviceId;
+
+  // TODO: buy and mint NFT
+
+  const nft = await createNFT({
+    tokenId: "1",
+    metadataUrl: "metadataUrl",
+    ownerId: "1",
+    minterId: "",
+    serviceId: data.serviceId,
+  });
 
   return NextResponse.json(
     {
       success: true,
       data: {
-        nfts,
+        nft,
       },
     },
     { status: 200 }
