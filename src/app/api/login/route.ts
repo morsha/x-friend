@@ -4,34 +4,42 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
-    const body = await request.json();
+  const body = await request.json();
 
-    // get user by email
-    const user = userService.getUserByEmail(body.email);
+  // get user by email
+  // const user = userService.getUserByEmail(body.email);
+  const user = {
+    id: "test-user-id",
+    name: "test user",
+    email: body.email,
+    passhash: await bcrypt.hash("password", 10),
+  };
 
-    const isPasswordCorrect = await bcrypt.compare(body.password, user.password);
+  const isPasswordCorrect = await bcrypt.compare(body.password, user.passhash);
 
-    if (user && isPasswordCorrect) {
-        const token = await new SignJWT({
-            email: body.email,
-        })
-        .setProtectedHeader({ alg: "HS256" })
-        .setIssuedAt()
-        .setExpirationTime("300s")
-        .sign(getJwtSecretKey());
+  if (user && isPasswordCorrect) {
+    const userPayload: UserPayload = {
+      sub: user.id,
+      name: user.name,
+      email: user.email,
+      address: "USER_ADDRESS",
+    };
+    const token = await new SignJWT(userPayload)
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("300s")
+      .sign(getJwtSecretKey());
 
-        const response = NextResponse.json(
-            { success: true },
-            { 
-                status: 200, 
-                headers: { 
-                    "content-type": "application/json",
-                    "authentication": `bearer ${token}`,
-                } 
-        });
+    const response = NextResponse.json(
+      { success: true, data: { authToken: token } },
+      { status: 200 }
+    );
 
-        return response;
-    }
+    return response;
+  }
 
-    return NextResponse.json({success: false});
+  return NextResponse.json(
+    { success: false, data: { message: "Unauthorized" } },
+    { status: 401 }
+  );
 }

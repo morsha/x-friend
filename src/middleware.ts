@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJwtToken } from "./app/libs/auth";
+import { getTokenFromAuthHeader } from "../utils/helper";
 
 const AUTH_PAGES = ["/login", "/register"];
 
-const isAuthPages = (url: string) => AUTH_PAGES.some((page) => page.startsWith(url));
+const isAuthPages = (url: string) =>
+  AUTH_PAGES.some((page) => page.startsWith(url));
 
 export async function middleware(request: NextRequest) {
+  const token = getTokenFromAuthHeader(request.headers.get("authorization"));
+
   const { url, nextUrl, cookies } = request;
-  const { value: token } = cookies.get("token") ?? { value: null };
 
   const hasVerifiedToken = token && (await verifyJwtToken(token));
   const isAuthPageRequested = isAuthPages(nextUrl.pathname);
@@ -35,6 +38,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  cookies.set("token", token);
   return NextResponse.next();
 }
 
