@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decodeJwt } from "jose";
-import bcrypt from "bcrypt";
 import { getTokenFromAuthHeader } from "../../../../utils/helper";
 import { ethers } from "ethers";
 import { getWalletFromMnemonic } from "../../../../utils/ethereum";
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
     // Connect to the Ethereum network
     const provider = new ethers.providers.JsonRpcProvider(
-      process.env.ETHERS_PROVIDER_URL
+      process.env.PROVIDER_URL
     );
     const wallet = getWalletFromMnemonic(process.env.MNEMONIC, "").connect(
       provider
