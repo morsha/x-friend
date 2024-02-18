@@ -20,7 +20,7 @@ const Footer = () => {
         borderTop: '1px solid #e0e0e0'
       }}>
       <Button variant="text" onClick={() => router.push('/services')} sx={{ textTransform: 'none', fontWeight: 'bold' }}>Services</Button>
-      <Button variant="text" onClick={() => router.push('/myNfts')} sx={{ textTransform: 'none', fontWeight: 'bold' }}>My NFTs</Button>
+      <Button variant="text" onClick={() => router.push('/mynfts')} sx={{ textTransform: 'none', fontWeight: 'bold' }}>My NFTs</Button>
       <Button variant="text" onClick={() => router.push('/myServices')} sx={{ textTransform: 'none', fontWeight: 'bold' }}>My Services</Button>
       <Button variant="text" onClick={() => router.push('/settings')} sx={{ textTransform: 'none', fontWeight: 'bold' }}>Settings</Button>
     </Box>
