@@ -38,7 +38,7 @@ function MyServicesPage() {
 
   const handleCreateService = (serviceData: any) => {
     // 假設提交到 API 的邏輯
-    console.log('Creating service:', serviceData);
+    console.log('Creating services:', serviceData);
     setIsModalOpen(false);
     // 更新 services 狀態以包含新服務
   };
