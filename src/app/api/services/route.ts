@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
         // Call the mint function of your contract
         const mintTx = await contract.safeMint(targetAddress, {
             gasPrice: gasPrice,
-            gasLimit: 64000,
             nonce: nonce,
         });
         const receipt = await mintTx.wait(); // Wait for the transaction to be mined

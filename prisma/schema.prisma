@@ -31,7 +31,7 @@ model Service {
   providerId  String
   provider    User          @relation(fields: [providerId], references: [id])
   status      ServiceStatus
-  nfts        NFT[] // NFTs associated with this service
+  nfts        NFT[] // NFTs associated with this services
   Transaction Transaction[]
 }
 
@@ -55,7 +55,7 @@ model NFT {
   minter      User     @relation("UserMintedNFTs", fields: [minterId], references: [id])
   minterId    String // ID of the user who minted the NFT
   service     Service? @relation(fields: [serviceId], references: [id])
-  serviceId   String? // ID of the service associated with the NFT
+  serviceId   String? // ID of the services associated with the NFT
   createdAt   DateTime @default(now())
 }
 
