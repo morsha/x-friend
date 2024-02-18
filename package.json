@@ -1,5 +1,5 @@
 {
-  "name": "ask-a-friend",
+  "name": "x-friend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,12 +11,21 @@
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.4",
     "ethers": "5.7",
     "jose": "^5.2.2",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
+    "@mui/material-nextjs": "^5.15.9",
     "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-responsive": "^9.0.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ThemeProvider } from '@mui/material/styles';
+import { SnackbarProvider } from "@/contexts/SnackbarContext";
 
-const inter = Inter({ subsets: ["latin"] });
+import styles from './layout.module.css';
+import './globals.css';
+
+import theme from '../theme';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +20,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider>
+              <main className={styles.main}>
+                {children}
+              </main>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }
