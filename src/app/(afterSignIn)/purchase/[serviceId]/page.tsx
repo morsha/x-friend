@@ -38,7 +38,7 @@ function PurchasePage({ params }: { params: { serviceId: string } }) {
       // await simulateApiCall(); // 假設這是你的 API 調用函數
       setShowSuccessModal(true); // 調用成功，顯示成功 Modal
       openSnackbar('Purchase successful!');
-      router.push('/mynfts');
+      router.push('/myNfts');
     } catch (error) {
       console.error('Purchase failed:', error);
       // 處理錯誤情況

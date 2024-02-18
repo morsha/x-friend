@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header>
-      <Stack width="100%" direction="row">
+      <Stack width="100%" direction="row" padding={2}>
         <Stack flex={1}>
           <Typography component="p">Address: {userAddress}</Typography>
           <Typography component="p">USDT Balance: {userUSDTBalance}</Typography>

@@ -32,7 +32,7 @@ const initialServices = [
     title: "Digital Marketing",
   }
 ];
-function ServicesPage() {
+function MyServicesPage() {
   const [services, setServices] = useState(initialServices);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,4 +63,4 @@ function ServicesPage() {
   );
 }
 
-export default isAuth(ServicesPage);
+export default isAuth(MyServicesPage);

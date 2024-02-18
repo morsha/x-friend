@@ -15,15 +15,15 @@ function ServiceCard({ service }: {
 }) {
   const router = useRouter();
   return (
-    <Card sx={{ maxWidth: 345, m: 2 }}>
+    <Card sx={{ maxWidth: 160, m: 1 }}>
       <CardMedia
         component="img"
-        height="345"
+        height="160"
         image={service.imgUrl}
         alt={service.title}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography variant="h6" component="span">
           {service.title}
         </Typography>
       </CardContent>

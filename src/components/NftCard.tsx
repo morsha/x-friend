@@ -18,20 +18,20 @@ function ServiceCard({ service }: {
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 345, m: 2 }}>
+    <Card sx={{ maxWidth: 160, m: 1 }}>
       <CardMedia
         component="img"
-        height="345"
+        height="160"
         image={service.imgUrl}
         alt={service.title}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" component="span">
           {service.title}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={useThisCard}>Done</Button>
+        <Button variant="outlined" size="small" onClick={useThisCard}>Done</Button>
       </CardActions>
     </Card>
   );
